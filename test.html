@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<title>Star Legacy - Money to Level Calculator</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i&display=swap');
+			body{background-color:#202020;font-family:'Roboto',sans-serif}
+			h1,h2,h3,h4,form{font-weight:400;margin:0}
+			h2,h3{width:512px}
+			h1{color:#ffffff;font-size:32px;min-width:512px;max-width:1024px}
+			h2{color:#cccccc;font-size:16px}
+			h3{color:#cc0000;font-style:italic;font-size:16px}
+			h4{color:#0088ff;display:inline}
+			div{height:64px}
+			a:link,a:visited{text-decoration-color:#cccccc}
+			a:hover,a:active{text-decoration-color:#0088ff}
+			input{width:128px;padding:8px}
+			#button{background:#404040;height:35px;border:none;color:ffffff}
+		</style>
+	</head>
+	<body>
+		<center>
+			<div></div>
+			<h1>Star Legacy - Money to Level Calculator</h1>
+			<br>
+			<h2>This calculator uses your current level, how much XP you already have, and what level you want to get too, and gives you how much money you will need to get to that level.</h2>
+			<br>>
+			<h3>Unfortunatly, this can only handle up to level 39 until I finish getting the data I need, but you can use what data I do have in the mean time!</h3>
+			<div></div>
+			<form id="form" onsubmit="calculate()"action="#">
+				<input type="number"min="1"max="38"placeholder="Current Level"id="currentLevel">
+				<input type="number"min="0"max="6199"placeholder="Current XP"id="currentXP">
+				<input type="number"min="2"max="39"placeholder="Target Level"id="targetLevel">
+				<input id="button"type="submit"value="Calculate">
+			</form>
+			<script>
+				function calculate() {
+					var XP = [600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400,1450,1500,2600,2700,2800,2900,3000,3100,3200,3300,3400,4000,5150,5300,5450,5600,5750,5900,6050,6200,6350];
+					var moneyPerXP = 2.5;
+					
+					var currentLevel = document.getElementById("currentLevel").value;
+					var currentXP = document.getElementById("currentXP").value;
+					var targetLevel = document.getElementById("targetLevel").value;
+
+					var xpNeeded = -currentXP;
+
+					for (let step = currentLevel; step < targetLevel; step++) {
+						xpNeeded += XP[step - 1];
+					}
+
+					var moneyNeeded = xpNeeded * moneyPerXP;
+
+					// Taken from https://blog.abelotech.com/posts/number-currency-formatting-javascript/
+					moneyNeeded = moneyNeeded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+					xpNeeded = xpNeeded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+
+					document.getElementById("output").textContent = "XP Required to Target: " + xpNeeded + "SLXP | Money required for XP: C" + moneyNeeded;
+				}
+			</script>
+			<br>
+			<h2><span id="output"></span></h2>
+			<div></div>
+			<h2>If you find someone that is level 39, or you got to that level, let me know please! <h4>Discord: PeterCrawley#8651</h4></h2>
+			<br><br>
+			<a href="https://drive.google.com/open?id=1KR9lHCFmsCEM3XEFhpVqTnrow_8hnkRz"target="_blank"><h2>The Data used in this calculator can be seen here.</h2></a>
+		</center>
+	</body>
+</html>
