@@ -27,43 +27,58 @@
 			<h1>Star Legacy - Money to Level Calculator</h1>
 			<br>
 			<h2>This calculator uses your current level, how much XP you already have, and what level you want to get too, and gives you how much money you will need to get to that level.</h2>
-			<br>>
-			<h3>Unfortunatly, this can only handle up to level 39 until I finish getting the data I need, but you can use what data I do have in the mean time!</h3>
+			<br>
+			<h3>This calculator can only currently handle up to level 58.</h3>
 			<div></div>
-			<form id="form" onsubmit="calculate()"action="#">
-				<input type="number"min="1"max="38"placeholder="Current Level"id="currentLevel">
-				<input type="number"min="0"max="6199"placeholder="Current XP"id="currentXP">
-				<input type="number"min="2"max="39"placeholder="Target Level"id="targetLevel">
+			<form id="form" onsubmit="calculate();return false"action="#">
+				<input type="number"min="1"max="67"placeholder="Current Level"id="currentLevel">
+				<input type="number"min="0"max="20899"placeholder="Current XP"id="currentXP">
+				<input type="number"min="2"max="68"placeholder="Target Level"id="targetLevel">
 				<input id="button"type="submit"value="Calculate">
 			</form>
 			<script>
 				function calculate() {
-					var XP = [600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400,1450,1500,2600,2700,2800,2900,3000,3100,3200,3300,3400,4000,5150,5300,5450,5600,5750,5900,6050,6200,6350];
+					document.getElementById("error").textContent = "";
+					document.getElementById("output").textContent = "";
+
+					var XP = [600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400,1450,1500,2600,2700,2800,2900,3000,3100,3200,3300,3400,4000,5150,5300,5450,5600,5750,5900,6050,6200,6350,8500,8700,8900,9100,9300,9500,9700,9900,10100,10300,13000,13250,13500,13750,14000,14250,14500,14750,15000,15250,18500,18800,19100,19400,19700,20000,20300,20600,20900];
 					var moneyPerXP = 2.5;
-					
+						
 					var currentLevel = document.getElementById("currentLevel").value;
 					var currentXP = document.getElementById("currentXP").value;
 					var targetLevel = document.getElementById("targetLevel").value;
 
-					var xpNeeded = -currentXP;
+					if (parseInt(currentLevel) < parseInt(targetLevel)) {
+						if (currentXP < XP[currentLevel - 1] - 1) {
 
-					for (let step = currentLevel; step < targetLevel; step++) {
-						xpNeeded += XP[step - 1];
+							var xpNeeded = -currentXP;
+							
+							for (var step = parseInt(currentLevel); step < targetLevel; step++) {
+								xpNeeded += XP[step - 1];
+
+								console.log(step)
+								console.log(XP[step - 1]);
+							}
+
+							var moneyNeeded = xpNeeded * moneyPerXP;
+
+							// Taken from https://blog.abelotech.com/posts/number-currency-formatting-javascript/
+							moneyNeeded = moneyNeeded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+							xpNeeded = xpNeeded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+
+							document.getElementById("output").textContent = "XP Required to Target: " + xpNeeded + "SLXP | Money required for XP: C" + moneyNeeded;
+						} else {
+							document.getElementById("error").textContent = "Current XP says you should be on the next level, are you sure your Current Level or Current XP is correct?";
+						}
+					} else {
+						document.getElementById("error").textContent = "Target Level must be higher then Current Level, or Current Level must be lower then Target Level. You pick.";
 					}
-
-					var moneyNeeded = xpNeeded * moneyPerXP;
-
-					// Taken from https://blog.abelotech.com/posts/number-currency-formatting-javascript/
-					moneyNeeded = moneyNeeded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-					xpNeeded = xpNeeded.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-
-					document.getElementById("output").textContent = "XP Required to Target: " + xpNeeded + "SLXP | Money required for XP: C" + moneyNeeded;
 				}
 			</script>
 			<br>
-			<h2><span id="output"></span></h2>
+			<h2><span id="output"></span></h2><h3><span id="error"></span></h3>
 			<div></div>
-			<h2>If you find someone that is level 39, or you got to that level, let me know please! <h4>Discord: PeterCrawley#8651</h4></h2>
+			<h2>If you find someone that is level 58, or you got to that level, let me know please! <h4>Discord: PeterCrawley#8651</h4></h2>
 			<br><br>
 			<a href="https://drive.google.com/open?id=1KR9lHCFmsCEM3XEFhpVqTnrow_8hnkRz"target="_blank"><h2>The Data used in this calculator can be seen here.</h2></a>
 		</center>
